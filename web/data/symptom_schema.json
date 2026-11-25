@@ -1,0 +1,395 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "P48",
+  "problem_statement_id": "SIH26128",
+  "title": "Livestock Disease Early Detection Symptom & Vitals Schema",
+  "disclaimer": "SCREENING & TRIAGE AID ONLY \u2014 NOT A VETERINARY DIAGNOSIS. Always consult a registered veterinarian for clinical examination, confirmatory testing, and treatment.",
+  "species": [
+    {
+      "id": "cattle",
+      "label": "Cattle (Cow / Bull)",
+      "normal_vitals": {
+        "rectal_temp_c": [
+          38.0,
+          39.2
+        ],
+        "heart_rate_bpm": [
+          48,
+          84
+        ],
+        "resp_rate_bpm": [
+          15,
+          35
+        ]
+      }
+    },
+    {
+      "id": "buffalo",
+      "label": "Buffalo",
+      "normal_vitals": {
+        "rectal_temp_c": [
+          37.8,
+          39.0
+        ],
+        "heart_rate_bpm": [
+          45,
+          80
+        ],
+        "resp_rate_bpm": [
+          15,
+          30
+        ]
+      }
+    },
+    {
+      "id": "goat",
+      "label": "Goat",
+      "normal_vitals": {
+        "rectal_temp_c": [
+          38.5,
+          40.0
+        ],
+        "heart_rate_bpm": [
+          70,
+          95
+        ],
+        "resp_rate_bpm": [
+          15,
+          30
+        ]
+      }
+    },
+    {
+      "id": "sheep",
+      "label": "Sheep",
+      "normal_vitals": {
+        "rectal_temp_c": [
+          38.5,
+          40.0
+        ],
+        "heart_rate_bpm": [
+          70,
+          90
+        ],
+        "resp_rate_bpm": [
+          15,
+          30
+        ]
+      }
+    }
+  ],
+  "age_groups": [
+    {
+      "id": "young",
+      "label": "Young (< 1 year)"
+    },
+    {
+      "id": "adult",
+      "label": "Adult (1 - 6 years)"
+    },
+    {
+      "id": "senior",
+      "label": "Senior (> 6 years)"
+    }
+  ],
+  "vitals_and_context": [
+    {
+      "id": "rectal_temp_c",
+      "label": "Rectal Temperature",
+      "type": "float",
+      "unit": "\u00b0C",
+      "alt_unit": "\u00b0F",
+      "min": 35.0,
+      "max": 43.0,
+      "default": 38.6
+    },
+    {
+      "id": "heart_rate_bpm",
+      "label": "Heart Rate",
+      "type": "integer",
+      "unit": "BPM",
+      "min": 30,
+      "max": 180,
+      "default": 66
+    },
+    {
+      "id": "resp_rate_bpm",
+      "label": "Respiratory Rate",
+      "type": "integer",
+      "unit": "breaths/min",
+      "min": 8,
+      "max": 100,
+      "default": 24
+    },
+    {
+      "id": "herd_affected_pct",
+      "label": "Herd Affected Percentage",
+      "type": "float",
+      "unit": "%",
+      "min": 0.0,
+      "max": 100.0,
+      "default": 5.0
+    },
+    {
+      "id": "days_since_onset",
+      "label": "Days Since Symptom Onset",
+      "type": "integer",
+      "unit": "days",
+      "min": 0,
+      "max": 30,
+      "default": 1
+    }
+  ],
+  "symptom_groups": [
+    {
+      "id": "systemic",
+      "label": "General & Systemic Signs",
+      "symptoms": [
+        {
+          "id": "loss_of_appetite",
+          "label": "Loss of appetite / off feed",
+          "description": "Animal refuses fodder, concentrate, or grazing"
+        },
+        {
+          "id": "lethargy_weakness",
+          "label": "Severe lethargy or weakness",
+          "description": "Dullness, drooping ears, reluctance or inability to stand"
+        },
+        {
+          "id": "sudden_milk_drop",
+          "label": "Sudden drop in milk yield",
+          "description": "Noticeable acute decrease in daily milk production"
+        },
+        {
+          "id": "enlarged_lymph_nodes",
+          "label": "Swollen lymph nodes",
+          "description": "Visible/palpable firm lumps in front of shoulder or flank"
+        }
+      ]
+    },
+    {
+      "id": "head_respiratory",
+      "label": "Head, Mouth & Respiratory",
+      "symptoms": [
+        {
+          "id": "excessive_salivation",
+          "label": "Excessive salivation / drooling",
+          "description": "Ropy strings of saliva or foaming from mouth"
+        },
+        {
+          "id": "mouth_blisters_ulcers",
+          "label": "Mouth blisters or ulcers",
+          "description": "Fluid-filled vesicles, raw sores, or peeling on tongue/gums"
+        },
+        {
+          "id": "nasal_discharge",
+          "label": "Nasal discharge",
+          "description": "Watery, thick mucoid, or pus-like discharge from nostrils"
+        },
+        {
+          "id": "ocular_discharge",
+          "label": "Eye (ocular) discharge",
+          "description": "Excessive tearing, cloudy eyes, or crusty discharge"
+        },
+        {
+          "id": "coughing",
+          "label": "Persistent coughing",
+          "description": "Repeated dry or moist cough, especially on movement"
+        },
+        {
+          "id": "labored_breathing",
+          "label": "Labored or rapid breathing",
+          "description": "Flared nostrils, stretched neck, open-mouth or heavy abdominal breathing"
+        },
+        {
+          "id": "throat_brisket_swelling",
+          "label": "Throat or brisket swelling",
+          "description": "Warm, soft fluid swelling under jaw, neck, or chest brisket"
+        },
+        {
+          "id": "orifice_bleeding",
+          "label": "Bleeding from natural openings",
+          "description": "Dark unclotted blood oozing from nose, mouth, or rectum"
+        }
+      ]
+    },
+    {
+      "id": "digestive_metabolic",
+      "label": "Digestive & Metabolic",
+      "symptoms": [
+        {
+          "id": "diarrhea",
+          "label": "Watery or loose diarrhea",
+          "description": "Frequent watery or foul-smelling dung"
+        },
+        {
+          "id": "bloody_diarrhea",
+          "label": "Blood-stained diarrhea",
+          "description": "Dark red streaks or frank blood in loose stool"
+        },
+        {
+          "id": "left_flank_bloat",
+          "label": "Left-flank abdominal bloat",
+          "description": "Tight, drum-like distension on the upper left side"
+        },
+        {
+          "id": "stopped_rumination",
+          "label": "Stopped cud chewing (rumination)",
+          "description": "No visible rumination cycles over several hours"
+        },
+        {
+          "id": "acetone_breath",
+          "label": "Sweet / acetone breath odor",
+          "description": "Distinct fruity or nail-polish-like smell on breath or milk"
+        }
+      ]
+    },
+    {
+      "id": "skin_udder_hoof",
+      "label": "Skin, Udder & Hooves",
+      "symptoms": [
+        {
+          "id": "skin_nodules",
+          "label": "Firm skin nodules / lumps",
+          "description": "Raised round skin bumps (2-5 cm) on neck, back, or legs"
+        },
+        {
+          "id": "hoof_lesions",
+          "label": "Hoof sores or foul rot",
+          "description": "Blisters, raw cracks, or foul-smelling decay between claws"
+        },
+        {
+          "id": "lameness",
+          "label": "Lameness or limping",
+          "description": "Reluctance to bear weight, stiff gait, or grazing on knees"
+        },
+        {
+          "id": "muscle_crepitus_swelling",
+          "label": "Crackling muscle swelling",
+          "description": "Hot painful swelling on thigh or shoulder that crackles when pressed"
+        },
+        {
+          "id": "udder_swelling_pain",
+          "label": "Hot, swollen, or painful udder",
+          "description": "Hardened, reddened, or tender udder quarter"
+        },
+        {
+          "id": "abnormal_milk",
+          "label": "Clotted, watery, or bloody milk",
+          "description": "Visible flakes, clots, pus, or pink discoloration in milk"
+        },
+        {
+          "id": "pale_mucous_membranes",
+          "label": "Pale inner eyelids",
+          "description": "Whitish or washed-out lower eyelid conjunctiva (anemia sign)"
+        }
+      ]
+    }
+  ],
+  "referral_tiers": {
+    "URGENT_REFERRAL": {
+      "label": "Urgent Veterinary Referral Required",
+      "referral_flag": true,
+      "sla_hours": 4,
+      "summary": "High risk of rapid deterioration, fatality, zoonotic hazard, or notifiable herd outbreak. Isolate animal immediately and contact a veterinarian urgently."
+    },
+    "VET_CONSULT": {
+      "label": "Prompt Veterinary Consultation (Within 24h)",
+      "referral_flag": true,
+      "sla_hours": 24,
+      "summary": "Requires clinical examination and targeted veterinary therapy. Separate from healthy stock and schedule vet visit within 24 hours."
+    },
+    "MONITOR_ROUTINE": {
+      "label": "Supportive Care & Scheduled Vet Review",
+      "referral_flag": false,
+      "sla_hours": 72,
+      "summary": "Lower immediate mortality risk; provide supportive hygiene/isolation and arrange routine veterinary checkup if signs persist or worsen."
+    }
+  },
+  "target_conditions": [
+    {
+      "id": "FMD",
+      "name": "Foot-and-Mouth Disease (FMD)",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": true
+    },
+    {
+      "id": "HS",
+      "name": "Hemorrhagic Septicemia (HS)",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": true
+    },
+    {
+      "id": "LSD",
+      "name": "Lumpy Skin Disease (LSD)",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": true
+    },
+    {
+      "id": "PPR",
+      "name": "Peste des Petits Ruminants (PPR)",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": true
+    },
+    {
+      "id": "ANTHRAX",
+      "name": "Suspected Acute Anthrax",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": true
+    },
+    {
+      "id": "BLACKLEG",
+      "name": "Black Quarter (Blackleg)",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": true
+    },
+    {
+      "id": "BLOAT",
+      "name": "Acute Ruminal Tympany (Bloat)",
+      "referral_tier": "URGENT_REFERRAL",
+      "referral_flag": true,
+      "notifiable": false
+    },
+    {
+      "id": "MASTITIS",
+      "name": "Clinical Mastitis",
+      "referral_tier": "VET_CONSULT",
+      "referral_flag": true,
+      "notifiable": false
+    },
+    {
+      "id": "BRD",
+      "name": "Bovine / Small Ruminant Pneumonia (BRD)",
+      "referral_tier": "VET_CONSULT",
+      "referral_flag": true,
+      "notifiable": false
+    },
+    {
+      "id": "METABOLIC",
+      "name": "Ketosis / Periparturient Metabolic Disorder",
+      "referral_tier": "VET_CONSULT",
+      "referral_flag": true,
+      "notifiable": false
+    },
+    {
+      "id": "PARASITISM",
+      "name": "Gastrointestinal Parasitism / Enteritis",
+      "referral_tier": "MONITOR_ROUTINE",
+      "referral_flag": false,
+      "notifiable": false
+    },
+    {
+      "id": "FOOT_ROT",
+      "name": "Infectious Foot Rot",
+      "referral_tier": "MONITOR_ROUTINE",
+      "referral_flag": false,
+      "notifiable": false
+    }
+  ]
+}
