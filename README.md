@@ -62,3 +62,4 @@ Because `web/js/screener_engine.js` implements exact parity with the Python mode
 - **Vercel:** Push repo; `vercel.json` serves `web/` automatically.
 - **GitHub Pages:** Deploy the `web/` directory directly.
 - **Docker / Render / Railway:** Build from `Dockerfile` (`python server.py`, reads `PORT` env var).
+<!-- deploy trigger -->
