@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PashuRakshak — Livestock Disease Early Detection Screener (P48 · SIH26128)</title>
+  <meta name="description" content="First-line livestock disease early detection screener mapping observed symptoms and basic vitals to ranked likely conditions with veterinary referral flags." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Slim Clinical Disclaimer Strip -->
+  <div class="notice-bar" role="region" aria-label="Clinical Disclaimer">
+    <div class="container notice-inner">
+      <div class="notice-copy">
+        <span class="notice-dot" aria-hidden="true"></span>
+        <strong id="i18n-disclaimer-short">Screening aid only — not a veterinary diagnosis.</strong>
+        <span id="i18n-disclaimer-sub">Always consult a registered veterinarian before treatment.</span>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn active" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="hi">हिंदी</button>
+        <button type="button" class="lang-btn" data-lang="mr">मराठी</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clean Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" id="brand-home-link">
+        <span class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#1B5E3F" />
+            <path d="M16 8v16M8 16h16" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong id="i18n-brand-name">PashuRakshak</strong>
+          <small>Livestock Health Screener · P48</small>
+        </span>
+      </a>
+
+      <nav class="header-nav" aria-label="Primary Navigation">
+        <button type="button" class="nav-link active" data-view="home" id="i18n-nav-screener">Screener</button>
+        <button type="button" class="nav-link" data-view="home" data-scroll="conditions-block" id="i18n-nav-conditions">Conditions</button>
+        <button type="button" class="nav-link" data-view="benchmarks" id="i18n-nav-benchmarks">Benchmarks &amp; Data</button>
+        <button type="button" class="nav-link" data-view="project" id="i18n-nav-project">Schema &amp; Team</button>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-header-start">Start Screening</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="loading-overlay" class="container loading-wrap">
+    <div class="loading-box">
+      <span class="spinner" aria-hidden="true"></span>
+      <span>Loading clinical model &amp; symptom schema…</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       VIEW 1: MAIN WEBSITE (DISTINCT BLOCKS)
+       ===================================================================== -->
+  <main id="view-home" class="view-panel active">
+    <!-- BLOCK 1: HERO SECTION -->
+    <section class="block block-white hero-block" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="hero-tag">Smart India Hackathon 2026 · SIH26128 · Govt. of Maharashtra</div>
+          <h1 id="i18n-hero-title">Early livestock disease screening, before the vet arrives.</h1>
+          <p class="hero-lead" id="i18n-hero-subtitle">
+            Check symptoms and basic vitals in under a minute to see the top likely conditions, herd risk, and whether urgent veterinary referral is needed.
+          </p>
+          <div class="hero-cta-row">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-hero-start">
+              <span id="i18n-hero-cta-primary">Start Screening</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-lg" id="btn-hero-sample">
+              <span id="i18n-hero-cta-sample">Try Sample Case</span>
+            </button>
+          </div>
+          <div class="hero-stats-row">
+            <div class="hero-stat">
+              <strong>12</strong>
+              <span>Livestock Conditions</span>
+            </div>
+            <div class="hero-stat">
+              <strong>4 Species</strong>
+              <span>Cattle, Buffalo, Goat, Sheep</span>
+            </div>
+            <div class="hero-stat">
+              <strong id="hero-top3-stat">99.8%</strong>
+              <span>Top-3 Held-Out Recall</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Preview Block -->
+        <div class="hero-preview-card">
+          <div class="preview-head">
+            <span class="preview-badge urgent">Urgent Referral Flag</span>
+            <span class="mono-tag">Example Output</span>
+          </div>
+          <div class="preview-animal">
+            <strong>Dairy Cattle (Adult)</strong> · Temp <span>40.6°C</span> · Herd Affected <span>38%</span>
+          </div>
+          <div class="preview-bars">
+            <div class="preview-bar-item">
+              <div class="preview-bar-row"><span>1. Foot-and-Mouth Disease (FMD)</span><strong>98.1%</strong></div>
+              <div class="mini-track"><div class="mini-fill" style="width:98%"></div></div>
+            </div>
+            <div class="preview-bar-item">
+              <div class="preview-bar-row"><span>2. Hemorrhagic Septicemia (HS)</span><strong>1.1%</strong></div>
+              <div class="mini-track"><div class="mini-fill muted" style="width:8%"></div></div>
+            </div>
+            <div class="preview-bar-item">
+              <div class="preview-bar-row"><span>3. Infectious Foot Rot</span><strong>0.4%</strong></div>
+              <div class="mini-track"><div class="mini-fill muted" style="width:4%"></div></div>
+            </div>
+          </div>
+          <div class="preview-action-note">
+            Isolate affected stock, halt movement, and alert the Government Veterinary Officer immediately.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 2: 3-STEP WORKFLOW STRIP -->
+    <section class="block block-tinted steps-block">
+      <div class="container">
+        <div class="block-head-center">
+          <span class="section-kicker">Simple 3-Step Triage</span>
+          <h2>Built for quick field decisions without clutter</h2>
+        </div>
+        <div class="three-cards-grid">
+          <article class="info-tile">
+            <span class="tile-num">01</span>
+            <h3>Select Animal &amp; Fever</h3>
+            <p>Pick Cattle, Buffalo, Goat, or Sheep and enter rectal temperature. Heart and breathing rates auto-fill with normal defaults.</p>
+          </article>
+          <article class="info-tile">
+            <span class="tile-num">02</span>
+            <h3>Tap Observed Signs</h3>
+            <p>Choose from clean, categorized symptom buttons—like drooling, blisters, bloat, cough, or swollen udder.</p>
+          </article>
+          <article class="info-tile">
+            <span class="tile-num">03</span>
+            <h3>Get Ranked Triage &amp; Actions</h3>
+            <p>Receive Top-3 likely conditions, vet urgency level, immediate isolation steps, and a printable summary for the vet.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 3: INTERACTIVE SCREENER WORKSPACE -->
+    <section class="block block-white screener-block" id="screener-section">
+      <div class="container">
+        <div class="screener-top-bar">
+          <div>
+            <span class="section-kicker">Live Interactive Screener</span>
+            <h2>Check an Animal Now</h2>
+          </div>
+          <div class="quick-examples-wrap">
+            <span class="examples-label">Quick examples:</span>
+            <div id="sample-cases-list" class="examples-pills"></div>
+            <button type="button" id="btn-reset-form" class="btn btn-ghost btn-sm">
+              <span id="i18n-reset-btn">Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="screener-layout">
+          <!-- Left: Calm 2-Step Form -->
+          <form id="screener-form" class="screener-card" novalidate>
+            <!-- Step Header Pills -->
+            <div class="step-tabs" role="tablist">
+              <button type="button" class="step-tab active" data-step="1" id="step-tab-1">
+                <span class="step-dot">1</span>
+                <span id="i18n-step1-title">Animal &amp; Vitals</span>
+              </button>
+              <button type="button" class="step-tab" data-step="2" id="step-tab-2">
+                <span class="step-dot">2</span>
+                <span id="i18n-step2-title">Observed Signs</span>
+                <span class="count-pill" id="symptom-counter-badge">0</span>
+              </button>
+            </div>
+
+            <!-- STEP 1 PANEL -->
+            <div class="step-panel active" id="step-panel-1">
+              <div class="sub-label">Select Livestock Species</div>
+              <div class="species-cards" id="species-selector" role="radiogroup" aria-label="Animal species"></div>
+
+              <div class="vitals-clean-grid">
+                <div class="field">
+                  <label for="age-group">Age Group</label>
+                  <select id="age-group">
+                    <option value="young">Young (&lt; 1 year)</option>
+                    <option value="adult" selected>Adult (1 – 6 years)</option>
+                    <option value="senior">Senior (&gt; 6 years)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <div class="label-row">
+                    <label for="rectal-temp">Rectal Temperature</label>
+                    <div class="unit-toggle">
+                      <button type="button" class="unit-btn active" data-unit="C">°C</button>
+                      <button type="button" class="unit-btn" data-unit="F">°F</button>
+                    </div>
+                  </div>
+                  <div class="input-status-row">
+                    <input type="number" id="rectal-temp" step="0.1" min="35" max="43" value="38.6" />
+                    <span id="temp-status-pill" class="status-tag normal">Normal</span>
+                  </div>
+                  <small class="hint" id="temp-range-hint">Normal cattle: 38.0 – 39.2 °C</small>
+                </div>
+
+                <div class="field">
+                  <div class="label-row">
+                    <label for="herd-pct">Herd Affected</label>
+                    <strong class="mono-tag" id="herd-pct-display">5%</strong>
+                  </div>
+                  <input type="range" id="herd-pct" min="1" max="100" value="5" />
+                  <small class="hint">Share of herd showing signs</small>
+                </div>
+
+                <div class="field">
+                  <label for="days-onset">Days Since First Sign</label>
+                  <input type="number" id="days-onset" min="0" max="30" value="1" />
+                  <small class="hint">0 = started today</small>
+                </div>
+              </div>
+
+              <!-- Optional Heart & Breathing Vitals Accordion -->
+              <details class="optional-vitals">
+                <summary>Optional: Heart Rate &amp; Breathing Rate (pre-filled with normal values)</summary>
+                <div class="vitals-clean-grid" style="margin-top:12px;">
+                  <div class="field">
+                    <label for="heart-rate">Heart Rate (BPM)</label>
+                    <div class="input-status-row">
+                      <input type="number" id="heart-rate" min="30" max="180" value="66" />
+                      <span id="hr-status-pill" class="status-tag normal">Normal</span>
+                    </div>
+                    <small class="hint" id="hr-range-hint">Normal: 48 – 84 BPM</small>
+                  </div>
+                  <div class="field">
+                    <label for="resp-rate">Breathing Rate (/min)</label>
+                    <div class="input-status-row">
+                      <input type="number" id="resp-rate" min="8" max="100" value="24" />
+                      <span id="rr-status-pill" class="status-tag normal">Normal</span>
+                    </div>
+                    <small class="hint" id="rr-range-hint">Normal: 15 – 35 /min</small>
+                  </div>
+                </div>
+              </details>
+
+              <div class="step-footer">
+                <span class="engine-note" id="engine-status-text">Ready</span>
+                <button type="button" class="btn btn-primary" id="btn-next-step">Next: Pick Symptoms →</button>
+              </div>
+            </div>
+
+            <!-- STEP 2 PANEL -->
+            <div class="step-panel" id="step-panel-2">
+              <div class="symptom-toolbar">
+                <div class="cat-pills" id="symptom-category-tabs">
+                  <button type="button" class="cat-pill active" data-cat="all">All (24)</button>
+                  <button type="button" class="cat-pill" data-cat="systemic">General</button>
+                  <button type="button" class="cat-pill" data-cat="head_respiratory">Mouth &amp; Breathing</button>
+                  <button type="button" class="cat-pill" data-cat="digestive_metabolic">Stomach</button>
+                  <button type="button" class="cat-pill" data-cat="skin_udder_hoof">Skin, Udder &amp; Hooves</button>
+                </div>
+                <input type="search" id="symptom-filter" class="symptom-search" placeholder="Search signs…" aria-label="Search symptoms" />
+              </div>
+
+              <div id="symptom-tiles-grid" class="symptom-tiles-grid"></div>
+
+              <div class="step-footer">
+                <button type="button" class="btn btn-secondary" id="btn-prev-step">← Back to Vitals</button>
+                <button type="submit" class="btn btn-primary btn-lg" id="btn-run-screen">
+                  <span id="i18n-run-btn">Check Likely Conditions</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Right: Clean Result Card -->
+          <aside class="result-card-wrap">
+            <div id="results-placeholder" class="result-empty-card">
+              <div class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M9 12l2 2 4-4" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </div>
+              <h3>Screening Summary Appears Here</h3>
+              <p>Complete Step 1 &amp; Step 2 on the left—or click any <strong>Quick example</strong> above—to view ranked conditions, vet urgency, and containment steps.</p>
+            </div>
+
+            <div id="results-panel" class="results-stack hidden" aria-live="polite">
+              <div id="referral-banner" class="triage-banner">
+                <div class="triage-top">
+                  <div>
+                    <span class="triage-label">VET REFERRAL STATUS</span>
+                    <h3 id="referral-title">Urgent Veterinary Referral Required</h3>
+                  </div>
+                  <span class="sla-badge" id="referral-sla">SLA: ≤ 4 hrs</span>
+                </div>
+                <p id="referral-summary"></p>
+                <div class="vitals-chips" id="vitals-summary-chips"></div>
+              </div>
+
+              <div class="result-box">
+                <div class="result-box-head">
+                  <h4>Top-3 Likely Conditions</h4>
+                  <div class="result-btns no-print">
+                    <button type="button" class="btn btn-secondary btn-xs" id="btn-copy-summary">
+                      <span id="i18n-copy-btn">Copy for Vet</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-xs" id="btn-print-sheet">
+                      <span id="i18n-print-btn">Print Sheet</span>
+                    </button>
+                  </div>
+                </div>
+                <div id="ranked-conditions-list" class="ranked-stack"></div>
+                <div id="baseline-comparison-box" class="baseline-note"></div>
+              </div>
+
+              <div class="result-box">
+                <h4 id="guidance-title">Immediate Field Actions</h4>
+                <div class="guidance-split">
+                  <div>
+                    <span class="guide-sub ok">Do Now</span>
+                    <ul id="guidance-do-list"></ul>
+                  </div>
+                  <div>
+                    <span class="guide-sub warn">Avoid</span>
+                    <ul id="guidance-dont-list"></ul>
+                  </div>
+                </div>
+                <p class="mini-disclaimer">
+                  <strong>Not a diagnosis:</strong> Share this summary with a licensed veterinarian before giving antibiotics or vaccines.
+                </p>
+              </div>
+
+              <div class="result-box no-print" id="recent-history-card">
+                <div class="result-box-head">
+                  <h4>Recent Checks (This Device)</h4>
+                  <button type="button" class="btn btn-ghost btn-xs" id="btn-clear-history">Clear</button>
+                </div>
+                <div id="recent-history-list" class="history-stack"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 4: COVERED CONDITIONS DIRECTORY -->
+    <section class="block block-tinted conditions-block" id="conditions-block">
+      <div class="container">
+        <div class="block-head-split">
+          <div>
+            <span class="section-kicker">Clinical Coverage</span>
+            <h2>12 Screened Livestock Conditions</h2>
+            <p class="sub-copy">Quick reference for farmers and paravets—filter by urgency tier.</p>
+          </div>
+          <div class="filter-pills" id="condition-tier-filters">
+            <button type="button" class="cat-pill active" data-tier="all">All (12)</button>
+            <button type="button" class="cat-pill" data-tier="URGENT_REFERRAL">Urgent (7)</button>
+            <button type="button" class="cat-pill" data-tier="VET_CONSULT">24h Vet Consult (3)</button>
+            <button type="button" class="cat-pill" data-tier="MONITOR_ROUTINE">Routine Monitor (2)</button>
+          </div>
+        </div>
+        <div id="conditions-directory-grid" class="conditions-grid"></div>
+      </div>
+    </section>
+
+    <!-- BLOCK 5: VALIDATION HIGHLIGHT BAND -->
+    <section class="block block-forest validation-band">
+      <div class="container validation-band-inner">
+        <div class="validation-copy">
+          <span class="section-kicker light">Evaluated on 2,500 Held-Out Records</span>
+          <h2>Tested against a mandatory Decision-Tree baseline</h2>
+          <p>
+            Our Hybrid Random Forest + Softmax screener captures species-specific symptom interactions and raises safety-net referral flags without missing critical outbreaks.
+          </p>
+          <div class="band-actions">
+            <button type="button" class="btn btn-white" id="btn-open-benchmarks">Explore Benchmark Report →</button>
+            <button type="button" class="btn btn-outline-white" id="btn-open-heldout">Inspect 2,500 Test Records</button>
+          </div>
+        </div>
+        <div class="validation-stats-grid" id="band-stats-grid">
+          <!-- Populated from evaluation_report -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       VIEW 2: BENCHMARKS & 2,500 HELD-OUT RECORDS (FOR EVALUATORS / DATA)
+       ===================================================================== -->
+  <main id="view-benchmarks" class="view-panel">
+    <section class="block block-white">
+      <div class="container">
+        <div class="block-head-split">
+          <div>
+            <span class="section-kicker">Objectives 2 &amp; 3 · Held-Out Validation</span>
+            <h2>Model Benchmarks &amp; 2,500 Held-Out Predictions</h2>
+            <p class="sub-copy">Trained on 8,000 records and evaluated on an independent held-out set of 2,500 records across 12 conditions.</p>
+          </div>
+          <div class="download-row">
+            <a href="data/held_out_predictions.csv" download="held_out_predictions.csv" class="btn btn-primary btn-sm">Download 2,500 CSV</a>
+            <a href="data/held_out_predictions.json" download="held_out_predictions.json" class="btn btn-secondary btn-sm">Download JSON</a>
+          </div>
+        </div>
+
+        <div class="kpi-grid" id="benchmark-kpis"></div>
+
+        <div class="two-col-grid">
+          <div class="panel-card">
+            <h3>Primary Screener vs. Decision-Tree Baseline</h3>
+            <div id="metric-bars-container" class="bars-stack"></div>
+          </div>
+          <div class="panel-card">
+            <h3>Most Influential Vitals &amp; Symptoms</h3>
+            <div id="feature-importance-container" class="bars-stack"></div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>Per-Condition Held-Out Performance (n = 2,500)</h3>
+          <div class="table-wrap">
+            <table class="data-table" id="per-class-table">
+              <thead>
+                <tr>
+                  <th>Condition</th>
+                  <th>Urgency Tier</th>
+                  <th class="num">Support</th>
+                  <th class="num">Precision</th>
+                  <th class="num">Recall</th>
+                  <th class="num">F1</th>
+                  <th class="num">Top-3 Hit</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel-card" id="heldout-explorer-card">
+          <div class="block-head-split" style="margin-bottom:14px;">
+            <div>
+              <h3>2,500 Held-Out Records Explorer</h3>
+              <p class="sub-copy">Search individual predictions, compare baseline vs primary Top-3, and inspect referral flags.</p>
+            </div>
+            <span id="heldout-count-label" class="mono-tag">Ready to load</span>
+          </div>
+
+          <div class="filter-bar">
+            <input type="search" id="heldout-search" placeholder="Search Record ID or Condition (e.g. HLD-00125, FMD)…" />
+            <select id="heldout-species">
+              <option value="">All Species</option>
+              <option value="cattle">Cattle</option>
+              <option value="buffalo">Buffalo</option>
+              <option value="goat">Goat</option>
+              <option value="sheep">Sheep</option>
+            </select>
+            <select id="heldout-condition">
+              <option value="">All Conditions</option>
+            </select>
+            <select id="heldout-match">
+              <option value="">All Outcomes</option>
+              <option value="top1">Top-1 Exact</option>
+              <option value="top3">In Top-3</option>
+              <option value="miss">Top-1 Miss</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" id="heldout-table">
+              <thead>
+                <tr>
+                  <th>Record ID</th>
+                  <th>Animal &amp; Vitals</th>
+                  <th>True Label</th>
+                  <th>Baseline DT</th>
+                  <th>Primary Top-3 Ranked</th>
+                  <th>Referral</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="pagination-row">
+            <button type="button" id="btn-prev-page" class="btn btn-secondary btn-sm">Previous</button>
+            <span id="heldout-page-label" class="mono-tag">Page 1</span>
+            <button type="button" id="btn-next-page" class="btn btn-secondary btn-sm">Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       VIEW 3: SCHEMA, DELIVERABLES & PROJECT TEAM
+       ===================================================================== -->
+  <main id="view-project" class="view-panel">
+    <section class="block block-white">
+      <div class="container">
+        <div class="two-col-grid">
+          <div class="panel-card">
+            <span class="section-kicker">Smart India Hackathon 2026 · PS ID: SIH26128</span>
+            <h2 style="margin-top:4px;">Project P48 — Livestock Disease Early Detection Screener</h2>
+            <p class="sub-copy" style="margin-top:8px;">
+              <strong>Problem:</strong> Livestock illness spreads through a herd before a vet can visit, and farmers need a first-line indication of what they may be dealing with.
+            </p>
+            <p class="sub-copy" style="margin-top:10px;">
+              <strong>Organisation:</strong> Government of Maharashtra · Allocation <code>K3P25VC</code> · Team <code>VC-3QLG</code><br />
+              <strong>Dataset Access:</strong> Public veterinary symptom profiles + documented synthetic dataset (`8,000` train / `2,500` held-out).
+            </p>
+            <div class="team-row">
+              <div class="team-pill"><strong>Aditya Ranjan</strong><span>12517187</span></div>
+              <div class="team-pill"><strong>Aman Kumar</strong><span>12511069</span></div>
+              <div class="team-pill"><strong>Tanishk</strong><span>12519648</span></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3>Deliverable Files</h3>
+            <div class="deliverable-rows">
+              <div class="deliverable-row">
+                <div>
+                  <strong>Symptom &amp; Vitals Schema</strong>
+                  <span>Formal species vitals, 24 symptoms &amp; 12 classes</span>
+                </div>
+                <a href="data/symptom_schema.json" download="symptom_schema.json" class="btn btn-secondary btn-sm">JSON</a>
+              </div>
+              <div class="deliverable-row">
+                <div>
+                  <strong>Trained Screener + Baseline Bundle</strong>
+                  <span>Random Forest + Softmax + Decision-Tree weights</span>
+                </div>
+                <a href="data/model_bundle.json" download="model_bundle.json" class="btn btn-secondary btn-sm">JSON</a>
+              </div>
+              <div class="deliverable-row">
+                <div>
+                  <strong>2,500 Held-Out Ranked Predictions</strong>
+                  <span>Full test set outputs &amp; referral flags</span>
+                </div>
+                <a href="data/held_out_predictions.csv" download="held_out_predictions.csv" class="btn btn-secondary btn-sm">CSV</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>Symptom &amp; Vitals Schema Breakdown</h3>
+          <div id="schema-explorer-grid" class="schema-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Structured Footer Block -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong class="footer-brand">PashuRakshak · Project P48 (K3P25VC)</strong>
+        <p>Team VC-3QLG: Aditya Ranjan, Aman Kumar, Tanishk · Smart India Hackathon 2026 (`SIH26128`, Government of Maharashtra).</p>
+      </div>
+      <div class="footer-links">
+        <button type="button" class="footer-link" data-jump="home">Screener</button>
+        <button type="button" class="footer-link" data-jump="benchmarks">Benchmarks (2,500)</button>
+        <button type="button" class="footer-link" data-jump="project">Schema &amp; Team</button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/screener_engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
